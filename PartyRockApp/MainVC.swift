@@ -17,23 +17,28 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let urlTest = "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/ev4bY1SkZLg\" frameborder=\"0\" allowfullscreen></iframe>"
+        let lightsOutUrl = "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/ev4bY1SkZLg?ecver=1\" frameborder=\"0\" allowfullscreen></iframe>"
+        let letsGetRidiculousUrl = "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/CdLhdrNgGu4?ecver=1\" frameborder=\"0\" allowfullscreen></iframe>"
+        let juicyWiggleUrl = "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/tWyuglGCKgE?ecver=1\" frameborder=\"0\" allowfullscreen></iframe>"
+        let partyRockAnthemUrl = "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/KQ6zr6kCPj8?ecver=1\" frameborder=\"0\" allowfullscreen></iframe>"
+        let whereTheSunGoesUrl = "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/TrVLu9p65a0?ecver=1\" frameborder=\"0\" allowfullscreen></iframe>"
+        
         
         let p1 = PartyRock(imageUrl: "https://i.ytimg.com/vi/SjmTFIHX1yo/maxresdefault.jpg",
-                           videoUrl: urlTest,
+                           videoUrl: lightsOutUrl,
                            videoTitle: "Lights Out")
         let p2 = PartyRock(imageUrl: "http://www.josepvinaixa.com/blog/wp-content/uploads/2013/09/Redfoo-Lets-Get-Ridiculous-2013-1200x1200.png",
-                           videoUrl: urlTest,
+                           videoUrl: letsGetRidiculousUrl,
                            videoTitle: "Let's Get Ridiculous")
         let p3 = PartyRock(imageUrl: "https://i.ytimg.com/vi/J7MQDULNIdU/maxresdefault.jpg",
-                           videoUrl: urlTest,
-                           videoTitle: "Juicy Wiggle Lesson")
-        let p4 = PartyRock(imageUrl: "http://www.billboard.com/files/media/redfoo-prm-cover-2015-billboard-embed.jpg",
-                           videoUrl: urlTest,
-                           videoTitle: "Party Rock Commercial")
-        let p5 = PartyRock(imageUrl: "http://i.dailymail.co.uk/i/pix/2015/02/25/260ECA1900000578-2967882-Where_to_look_Redfoo_dons_a_dazzling_monochrome_short_suit_as_he-m-8_1424829097315.jpg",
-                           videoUrl: urlTest,
+                           videoUrl: juicyWiggleUrl,
                            videoTitle: "Juicy Wiggle")
+        let p4 = PartyRock(imageUrl: "http://www.billboard.com/files/media/redfoo-prm-cover-2015-billboard-embed.jpg",
+                           videoUrl: partyRockAnthemUrl,
+                           videoTitle: "Party Rock Anthem")
+        let p5 = PartyRock(imageUrl: "https://i.ytimg.com/vi/ntmwt2l3Vko/maxresdefault.jpg",
+                           videoUrl: whereTheSunGoesUrl,
+                           videoTitle: "Where the Sun Goes")
         
         partyRocks.append(p1)
         partyRocks.append(p2)
@@ -58,6 +63,20 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return partyRocks.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let partyRock = partyRocks[indexPath.row]
+        
+        performSegue(withIdentifier: "VideoVC", sender: partyRock)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? VideoVC {
+            if let party = sender as? PartyRock {
+                destination.partyRock = party
+            }
+        }
     }
 }
 
